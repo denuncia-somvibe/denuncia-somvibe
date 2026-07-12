@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal de Denúncias - Fraudes em Distribuidoras de Streaming</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 4px solid #ff6b6b;
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .warning-banner {
+            background-color: #ff6b6b;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1em;
+            border-bottom: 3px solid #cc0000;
+        }
+        
+        nav {
+            background-color: #2d2d2d;
+            padding: 15px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav a:hover {
+            color: #ff6b6b;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .main-article {
+            background: white;
+            padding: 40px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .article-header {
+            border-bottom: 3px solid #ff6b6b;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .article-header h2 {
+            font-size: 2em;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+        }
+        
+        .article-meta {
+            color: #666;
+            font-size: 0.95em;
+        }
+        
+        .logo-section {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+        
+        .logo-section img {
+            max-width: 200px;
+            height: auto;
+            margin-bottom: 15px;
+        }
+        
+        .logo-section p {
+            font-weight: bold;
+            color: #ff6b6b;
+            font-size: 1.2em;
+        }
+        
+        .section-title {
+            font-size: 1.8em;
+            color: #1a1a1a;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-left: 5px solid #ff6b6b;
+            padding-left: 15px;
+        }
+        
+        .highlight-box {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .highlight-box strong {
+            color: #856404;
+        }
+        
+        .crime-box {
+            background-color: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .crime-box strong {
+            color: #721c24;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        table th {
+            background-color: #1a1a1a;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: bold;
+        }
+        
+        table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        table tr:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .stakeholder-card {
+            background: white;
+            border: 2px solid #ff6b6b;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .stakeholder-card h3 {
+            color: #ff6b6b;
+            margin-bottom: 10px;
+        }
+        
+        .stakeholder-card p {
+            margin: 8px 0;
+        }
+        
+        .stakeholder-card a {
+            color: #ff6b6b;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .stakeholder-card a:hover {
+            text-decoration: underline;
+        }
+        
+        .gallery {
+            margin: 40px 0;
+        }
+        
+        .gallery-title {
+            font-size: 1.8em;
+            color: #1a1a1a;
+            margin-bottom: 20px;
+            border-left: 5px solid #ff6b6b;
+            padding-left: 15px;
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .gallery-item {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .gallery-item-caption {
+            padding: 15px;
+            background-color: #f9f9f9;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .cta-section {
+            background: linear-gradient(135deg, #ff6b6b 0%, #cc0000 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 40px 0;
+        }
+        
+        .cta-section h3 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+        
+        .cta-section p {
+            font-size: 1.1em;
+            margin-bottom: 20px;
+        }
+        
+        .cta-button {
+            background-color: white;
+            color: #ff6b6b;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .cta-button:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .related-cases {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .related-cases h4 {
+            color: #ff6b6b;
+            margin-bottom: 15px;
+        }
+        
+        .related-cases ul {
+            list-style: none;
+        }
+        
+        .related-cases li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .related-cases li:last-child {
+            border-bottom: none;
+        }
+        
+        .related-cases a {
+            color: #ff6b6b;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .related-cases a:hover {
+            text-decoration: underline;
+        }
+        
+        footer {
+            background-color: #1a1a1a;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 50px;
+            border-top: 3px solid #ff6b6b;
+        }
+        
+        footer p {
+            margin: 10px 0;
+        }
+        
+        .disclaimer {
+            background-color: #e7e7e7;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-size: 0.9em;
+            color: #333;
+        }
+        
+        .disclaimer strong {
+            color: #1a1a1a;
+        }
+        
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+            
+            .main-article {
+                padding: 20px;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🚨 PORTAL DE DENÚNCIAS</h1>
+        <p>Fraudes em Distribuidoras de Streaming - Proteção ao Artista Independente</p>
+    </header>
+    
+    <div class="warning-banner">
+        ⚠️ DENÚNCIA PÚBLICA: ESTELIONATO E FRAUDE DE DIREITOS AUTORAIS
+    </div>
+    
+    <nav>
+        <ul>
+            <li><a href="#caso-principal">Caso Principal</a></li>
+            <li><a href="#fundamentacao">Fundamentação Legal</a></li>
+            <li><a href="#protocolos">Protocolos Ignorados</a></li>
+            <li><a href="#provas">Provas Técnicas</a></li>
+            <li><a href="#galeria">Galeria de Evidências</a></li>
+            <li><a href="#denuncia-acionista">Acionista Denunciado</a></li>
+        </ul>
+    </nav>
+    
+    <div class="container">
+        <div class="main-article">
+            <div class="article-header">
+                <h2 id="caso-principal">DOSSIÊ INTEGRADO DE ACUSAÇÃO E DENÚNCIA PÚBLICA: CASO SOM VIBE</h2>
+                <div class="article-meta">
+                    <p><strong>ASSUNTO:</strong> Estelionato, Fraude de ISRC, Supressão de Direitos Autorais e Abuso Contratual</p>
+                    <p><strong>NOTIFICANTE:</strong> Gui Cariolatto</p>
+                    <p><strong>NOTIFICADA:</strong> Som Vibe Music Business Ltda. (CNPJ: 41.121.857/0001-85)</p>
+                    <p><strong>DATA:</strong> 12 de julho de 2026</p>
+                </div>
+            </div>
+            
+            <div class="logo-section">
+                <img src="https://i.postimg.cc/Sj9VCm9W/IMG-20260701-WA0010.jpg" alt="Logo Som Vibe" style="max-width: 150px;">
+                <p>Som Vibe Music Business Ltda.</p>
+                <p style="color: #333; font-size: 0.9em; margin-top: 10px;">CNPJ: 41.121.857/0001-85</p>
+            </div>
+            
+            <!-- PARTE I: O ESCÂNDALO -->
+            <h3 class="section-title">PARTE I: O ESCÂNDALO (DENÚNCIA JORNALÍSTICA)</h3>
+            
+            <h4 style="font-size: 1.5em; color: #ff6b6b; margin: 30px 0 20px 0;">MANCHETE: "PIRATARIA CORPORATIVA" - O ESQUEMA QUE ESTÁ DESTRUINDO CARREIRAS NA SOM VIBE</h4>
+            
+            <p style="font-size: 1.1em; font-weight: bold; margin-bottom: 20px;">O artista Gui Cariolatto, com 16 anos de trajetória, expõe hoje um esquema de "resolução fantasma" e manipulação de direitos autorais que beira o estelionato. O que deveria ser o suporte para sua carreira transformou-se em um pesadelo jurídico e psicológico.</p>
+            
+            <p>Este documento consolida todas as evidências de infrações contratuais, civis e criminais cometidas pela Notificada contra o Notificante. Estrutura-se em fundamentação legal, mapeamento pericial de protocolos e constatação de fraude técnica de identificadores fonográficos (ISRC).</p>
+            
+            <div class="highlight-box">
+                <strong>"FÁBRICA DE RESOLVIDOS": O ESQUEMA QUE ESTÁ DESTRUINDO CARREIRAS NA SOM VIBE</strong>
+                <p style="margin-top: 10px;">O artista Gui Cariolatto expõe dossiê com 16 protocolos ignorados, fraudes em códigos ISRC e descaso com a saúde mental. Entenda como a distribuidora lucra enquanto "apaga" os direitos dos músicos.</p>
+            </div>
+            
+            <h4 style="font-size: 1.3em; color: #ff6b6b; margin: 30px 0 15px 0;">FRAUDE QUE O SUPORTE TENTA ESCONDER</h4>
+            
+            <p>Imagine pagar por um serviço anual, pagar taxas extras de "prioridade" e, no momento do lançamento, ver seus direitos sumirem. É o que está acontecendo na Som Vibe. Nossa investigação revela que a empresa opera uma verdadeira "Fábrica de Resolvidos": chamados são encerrados em segundos com mentiras e prazos fictícios, apenas para mascarar a ineficiência técnica.</p>
+            
+            <h4 style="font-size: 1.3em; color: #ff6b6b; margin: 30px 0 15px 0;">O CRIME DO ISRC FALSO</h4>
+            
+            <div class="crime-box">
+                <strong>O ponto mais grave: a Som Vibe está sendo acusada de falsidade ideológica.</strong>
+                <p style="margin-top: 10px;">Ao ignorar os códigos oficiais da ABRAMUS e gerar códigos internos sem autorização, a empresa retira do artista o controle sobre sua própria obra. "Eles dizem que é rascunho, mas é uma fraude definitiva", afirma o dossiê.</p>
+            </div>
+            
+            <p><strong>Legenda:</strong> Print mostra o atendimento prometendo usar o ISRC original, promessa que foi descumprida no lançamento.</p>
+            
+            <h4 style="font-size: 1.3em; color: #ff6b6b; margin: 30px 0 15px 0;">IMPACTO HUMANO: SAÚDE MENTAL E FAMÍLIA</h4>
+            
+            <p>Não é apenas sobre música, é sobre vidas. O artista utiliza a arte como terapia para depressão, e o descaso da Som Vibe agravou seu estado clínico. Além disso, o descaso atinge uma criança de 10 anos, cujos direitos autorais foram negligenciados, violando o ECA.</p>
+            
+            <h4 style="font-size: 1.3em; color: #1a1a1a; margin: 30px 0 15px 0;">Os Pilares do Escândalo:</h4>
+            
+            <ol style="margin-left: 20px; line-height: 2;">
+                <li><strong>A "Fábrica de Resolvidos":</strong> 16 protocolos de atendimento encerrados unilateralmente sem qualquer solução técnica, visando apenas mascarar a ineficiência do suporte.</li>
+                <li><strong>Fraude Técnica do ISRC:</strong> A substituição deliberada de códigos oficiais da ABRAMUS por códigos internos viciados, retirando do artista o controle soberano sobre sua obra.</li>
+                <li><strong>Tortura Psicológica e Descaso:</strong> O uso de cinismo e prazos fictícios contra um artista que utiliza a música como ferramenta de saúde mental, agravando seu quadro clínico.</li>
+            </ol>
+            
+            <!-- PARTE II: O PROCESSO -->
+            <h3 class="section-title" id="fundamentacao">PARTE II: O PROCESSO (FUNDAMENTAÇÃO JURÍDICO-PERICIAL)</h3>
+            
+            <h4 style="font-size: 1.3em; color: #1a1a1a; margin: 30px 0 15px 0;">1. CAPITULAÇÃO CRIMINAL E CÓDIGOS VIOLADOS</h4>
+            
+            <p>Fica a Notificada ciente de que suas condutas enquadram-se nos seguintes dispositivos:</p>
+            
+            <ul style="margin-left: 20px; line-height: 2; margin-top: 15px;">
+                <li><strong>Art. 171, CP (Estelionato):</strong> Obtenção de vantagem ilícita mediante fraude contratual.</li>
+                <li><strong>Art. 299, CP (Falsidade Ideológica):</strong> Adulteração de dados técnicos (ISRC) em registros fonográficos.</li>
+                <li><strong>Art. 184, CP e Lei 9.610/98:</strong> Violação de direitos autorais morais e patrimoniais.</li>
+                <li><strong>Art. 39, CDC e Art. 187, CC:</strong> Prática abusiva e abuso de direito no atendimento ao consumidor.</li>
+                <li><strong>Lei 8.069/90 (ECA):</strong> Negligência contra o bem-estar e direitos de menor de idade.</li>
+            </ul>
+            
+            <h4 style="font-size: 1.2em; color: #1a1a1a; margin: 30px 0 15px 0;">1.1. ESTELIONATO (Art. 171, Código Penal)</h4>
+            
+            <p>A Notificada obteve vantagem ilícita ao receber pagamentos por anuidade e "adiantamento de fila", ciente de que não entregaria a proteção de direitos (Content ID) e a identificação de obras (Cards), utilizando-se de ardil para ludibriar o artista.</p>
+            
+            <h4 style="font-size: 1.2em; color: #1a1a1a; margin: 30px 0 15px 0;">1.2. FALSIDADE IDEOLÓGICA E FRAUDE DE ISRC (Art. 299, Código Penal)</h4>
+            
+            <p>Configura-se pela substituição arbitrária dos códigos ISRC oficiais (ABRAMUS) por códigos internos viciados, inserindo dados falsos em registros que deveriam ser fidedignos.</p>
+            
+            <div class="highlight-box">
+                <strong>Prova Crucial:</strong> Imagem IMG-20260701-WA0032 demonstra a promessa falsa de utilização do ISRC original.
+            </div>
+            
+            <h4 style="font-size: 1.2em; color: #1a1a1a; margin: 30px 0 15px 0;">1.3. VIOLAÇÃO DE DIREITOS AUTORAIS (Lei 9.610/98)</h4>
+            
+            <p>Supressão sistemática de créditos e cards de identificação, ferindo os direitos morais e patrimoniais do autor sobre sua obra intelectual de 16 anos.</p>
+            
+            <h4 style="font-size: 1.2em; color: #1a1a1a; margin: 30px 0 15px 0;">1.4. PRÁTICA ABUSIVA E MÁ-FÉ (Art. 39, CDC e Art. 187, CC)</h4>
+            
+            <p>A "Fábrica de Resolvidos" — encerramento unilateral de chamados sem solução — constitui abuso de direito e violação do dever de suporte ao consumidor.</p>
+            
+            <h4 style="font-size: 1.3em; color: #1a1a1a; margin: 30px 0 15px 0;">2. MAPEAMENTO DE PROTOCOLOS (MODUS OPERANDI)</h4>
+            
+            <p id="protocolos"><strong>Tabela de 16 Protocolos Ignorados pela Som Vibe:</strong></p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Protocolo</th>
+                        <th>Status Sistema</th>
+                        <th>Status Real</th>
+                        <th>Observação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>SV-2026-28855</td>
+                        <td>Resolvido</td>
+                        <td>Pendente</td>
+                        <td>Encerramento sem solução técnica.</td>
+                    </tr>
+                    <tr>
+                        <td>SV-2026-27780</td>
+                        <td>Resolvido</td>
+                        <td>Pendente</td>
+                        <td>Reincidência de supressão de direitos.</td>
+                    </tr>
+                    <tr>
+                        <td>SV-2026-27540</td>
+                        <td>Resolvido</td>
+                        <td>Pendente</td>
+                        <td>Cobrança de prioridade não cumprida.</td>
+                    </tr>
+                    <tr>
+                        <td>SV-2026-26361</td>
+                        <td>Resolvido</td>
+                        <td>Pendente</td>
+                        <td>Falha na ativação de Content ID.</td>
+                    </tr>
+                    <tr>
+                        <td>SV-2026-25840</td>
+                        <td>Resolvido</td>
+                        <td>Pendente</td>
+                        <td>Desprezo à solicitação do artista.</td>
+                    </tr>
+                    <tr>
+                        <td>SV-2026-25251</td>
+                        <td>Resolvido</td>
+                        <td>Pendente</td>
+                        <td>Manipulação de prazo (5 dias fictícios).</td>
+                    </tr>
+                    <tr>
+                        <td>SV-2026-24930</td>
+                        <td>Resolvido</td>
+                        <td>Pendente</td>
+                        <td>Cinismo no atendimento via chat.</td>
+                    </tr>
+                    <tr>
+                        <td>SV-2026-24618</td>
+                        <td>Resolvido</td>
+                        <td>Pendente</td>
+                        <td>Supressão de cards após ameaça judicial.</td>
+                    </tr>
+                    <tr>
+                        <td>SV-2026-23209</td>
+                        <td>Resolvido</td>
+                        <td>Pendente</td>
+                        <td>Registro de "Atendimento Desativado".</td>
+                    </tr>
+                    <tr>
+                        <td>SV-2026-22551</td>
+                        <td>Resolvido</td>
+                        <td>Pendente</td>
+                        <td>Violação de direitos de menor.</td>
+                    </tr>
+                    <tr>
+                        <td>SV-2026-22357</td>
+                        <td>Resolvido</td>
+                        <td>Pendente</td>
+                        <td>Agravamento de dano moral.</td>
+                    </tr>
+                    <tr>
+                        <td>SV-2026-22314</td>
+                        <td>Resolvido</td>
+                        <td>Pendente</td>
+                        <td>Falha na distribuição Deluxe.</td>
+                    </tr>
+                    <tr>
+                        <td>SV-2026-16070</td>
+                        <td>Resolvido</td>
+                        <td>Pendente</td>
+                        <td>Histórico de supressão desde maio.</td>
+                    </tr>
+                    <tr>
+                        <td>SV-2026-15577</td>
+                        <td>Resolvido</td>
+                        <td>Pendente</td>
+                        <td>Promessa falsa de regularização.</td>
+                    </tr>
+                    <tr>
+                        <td>SV-2026-15308</td>
+                        <td>Resolvido</td>
+                        <td>Pendente</td>
+                        <td>Aviso de instabilidade como pretexto.</td>
+                    </tr>
+                    <tr>
+                        <td>SV-2026-15301</td>
+                        <td>Resolvido</td>
+                        <td>Pendente</td>
+                        <td>Início do ciclo de abusos contratuais.</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <!-- PARTE III: PROVAS TÉCNICAS -->
+            <h3 class="section-title" id="provas">PARTE III: PROVAS TÉCNICAS E MATERIAIS</h3>
+            
+            <h4 style="font-size: 1.3em; color: #1a1a1a; margin: 30px 0 15px 0;">1. A PROVA DA FRAUDE DE ISRC</h4>
+            
+            <p>Conforme a imagem IMG-20260701-WA0032, a Notificada garantiu: <strong>"Pode ficar tranquilo, o Isrc que você inseriu será utilizado"</strong>. A quebra desta promessa e a substituição por código viciado constitui a prova material da fraude.</p>
+            
+            <h4 style="font-size: 1.3em; color: #1a1a1a; margin: 30px 0 15px 0;">2. A PROVA DO DESCASO COM O CONSUMIDOR</h4>
+            
+            <p>A imagem Screenshot_2026-07-12-13-52-14-020 mostra o painel da empresa com o aviso <strong>"Atendimento geral desativado no momento"</strong>, enquanto o marketing para novos clientes permanece ativo, configurando má-fé.</p>
+            
+            <!-- PARTE IV: ENCERRAMENTO -->
+            <h3 class="section-title">PARTE IV: ENCERRAMENTO E ASSINATURAS</h3>
+            
+            <p>Fica estabelecido o prazo de 24 horas para a cessação de todos os ilícitos, sob pena de medidas judiciais e criminais imediatas.</p>
+            
+            <div class="stakeholder-card">
+                <h3>NOTIFICANTE</h3>
+                <p><strong>Gui Cariolatto</strong></p>
+                <p>Artista independente com 16 anos de trajetória</p>
+                <p>Data do Dossiê: 12 de julho de 2026</p>
+            </div>
+            
+            <p style="text-align: center; font-weight: bold; margin: 30px 0; font-size: 1.1em;">ESTE DOCUMENTO CONSOLIDA TODAS AS PEÇAS JURÍDICAS E JORNALÍSTICAS DO CASO.</p>
+            
+            <!-- CONCLUSÃO -->
+            <h3 class="section-title">CONCLUSÃO E CHAMADA PARA AÇÃO</h3>
+            
+            <p>O artista Gui Cariolatto já notificou a empresa extrajudicialmente e está movendo uma ação por Estelionato e Danos Morais. O prazo de 24 horas para regularização foi dado. A justiça será o próximo passo.</p>
+            
+            <div class="cta-section">
+                <h3>VOCÊ TAMBÉM FOI VÍTIMA?</h3>
+                <p>Não se cale. Use este dossiê como base para sua própria denúncia.</p>
+                <p style="font-size: 0.95em; margin-top: 15px;">Denuncie também ao Ministério Público, à Polícia Federal e aos órgãos de proteção ao consumidor.</p>
+            </div>
+            
+            <!-- ACIONISTA DENUNCIADO -->
+            <div class="section-title" id="denuncia-acionista">INFORMAÇÕES DO ACIONISTA DENUNCIADO</div>
+            
+            <div class="stakeholder-card">
+                <h3>Leandro Rocha</h3>
+                <p><strong>Cargo:</strong> Fundador e Acionista da Som Vibe Music Business Ltda.</p>
+                <p><strong>Instagram:</strong> <a href="https://www.instagram.com/leorochareal/" target="_blank">@leorochareal</a></p>
+                <p><strong>Empresa:</strong> Som Vibe Music Business Ltda.</p>
+                <p><strong>CNPJ:</strong> 41.121.857/0001-85</p>
+                <p style="margin-top: 15px; color: #666; font-size: 0.9em;"><strong>Nota:</strong> Informações públicas disponíveis em redes sociais e registros comerciais.</p>
+            </div>
+            
+            <div class="related-cases">
+                <h4>Outras Denúncias de Fraude em Distribuidoras Brasileiras</h4>
+                <ul>
+                    <li><a href="#" target="_blank">Operação Authêntica - Fraude em Streams (2026)</a></li>
+                    <li><a href="#" target="_blank">Investigação: Boom - Plataforma de Fraude de Streaming Bloqueada</a></li>
+                    <li><a href="#" target="_blank">Denúncias contra distribuidoras: ONErpm, Believe, Tratore</a></li>
+                    <li><a href="#" target="_blank">Fraude de ISRC - Casos em Investigação</a></li>
+                    <li><a href="https://www.reclameaqui.com.br/empresa/som-vibe-music-business-ltda/" target="_blank">Reclamações - Som Vibe Music Business Ltda (Reclame AQUI)</a></li>
+                </ul>
+            </div>
+            
+            <div class="disclaimer">
+                <strong>AVISO LEGAL:</strong> Este portal consolida informações contidas no dossiê de denúncia pública do artista Gui Cariolatto contra a Som Vibe Music Business Ltda. O conteúdo é apresentado como denúncia e acusação, conforme direito de informação e liberdade de expressão. As alegações aqui contidas são responsabilidade do notificante e estão sendo processadas através de canais legais apropriados.
+            </div>
+        </div>
+        
+        <!-- GALERIA DE EVIDÊNCIAS -->
+        <div class="gallery" id="galeria">
+            <h2 class="gallery-title">GALERIA DE EVIDÊNCIAS - TODAS AS IMAGENS DO DOSSIÊ</h2>
+            <p style="margin-bottom: 30px; font-size: 1.05em; color: #666;">Abaixo estão todas as imagens e prints que comprovam as acusações contidas no dossiê. Clique em cada imagem para ampliar.</p>
+            
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="https://i.postimg.cc/Sj9VCm9W/IMG-20260701-WA0010.jpg" alt="Evidência 1" onclick="window.open(this.src, '_blank')">
+                    <div class="gallery-item-caption">IMG-20260701-WA0010 - Evidência 1</div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://i.postimg.cc/3WG9m3GB/IMG-20260701-WA0011.jpg" alt="Evidência 2" onclick="window.open(this.src, '_blank')">
+                    <div class="gallery-item-caption">IMG-20260701-WA0011 - Evidência 2</div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://i.postimg.cc/21kxsvKX/IMG-20260701-WA0012.jpg" alt="Evidência 3" onclick="window.open(this.src, '_blank')">
+                    <div class="gallery-item-caption">IMG-20260701-WA0012 - Evidência 3</div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://i.postimg.cc/XX5xdn5g/IMG-20260701-WA0013.jpg" alt="Evidência 4" onclick="window.open(this.src, '_blank')">
+                    <div class="gallery-item-caption">IMG-20260701-WA0013 - Evidência 4</div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://i.postimg.cc/K1G56LHC/IMG-20260701-WA0014.jpg" alt="Evidência 5" onclick="window.open(this.src, '_blank')">
+                    <div class="gallery-item-caption">IMG-20260701-WA0014 - Evidência 5</div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://i.postimg.cc/qgKQypKQ/IMG-20260701-WA0015.jpg" alt="Evidência 6" onclick="window.open(this.src, '_blank')">
+                    <div class="gallery-item-caption">IMG-20260701-WA0015 - Evidência 6</div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://i.postimg.cc/HjM3XTM9/IMG-20260701-WA0016.jpg" alt="Evidência 7" onclick="window.open(this.src, '_blank')">
+                    <div class="gallery-item-caption">IMG-20260701-WA0016 - Evidência 7</div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://i.postimg.cc/pyjkzPj6/IMG-20260701-WA0032.jpg" alt="Prova Crucial - ISRC" onclick="window.open(this.src, '_blank')">
+                    <div class="gallery-item-caption">IMG-20260701-WA0032 - PROVA CRUCIAL: Promessa de ISRC Original</div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://i.postimg.cc/hfqs0N88/Screenshot-2026-07-12-13-50-56-685-com-android-chrome.jpg" alt="Screenshot 1" onclick="window.open(this.src, '_blank')">
+                    <div class="gallery-item-caption">Screenshot-2026-07-12-13-50-56-685 - Print 1</div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://i.postimg.cc/TpX0cBjJ/Screenshot-2026-07-12-13-51-07-829-com-android-chrome.jpg" alt="Screenshot 2" onclick="window.open(this.src, '_blank')">
+                    <div class="gallery-item-caption">Screenshot-2026-07-12-13-51-07-829 - Print 2</div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://i.postimg.cc/qzdwGWcG/Screenshot-2026-07-12-13-51-10-578-com-android-chrome.jpg" alt="Screenshot 3" onclick="window.open(this.src, '_blank')">
+                    <div class="gallery-item-caption">Screenshot-2026-07-12-13-51-10-578 - Print 3</div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://i.postimg.cc/LnMDVGkv/Screenshot-2026-07-12-13-51-13-421-com-android-chrome.jpg" alt="Screenshot 4" onclick="window.open(this.src, '_blank')">
+                    <div class="gallery-item-caption">Screenshot-2026-07-12-13-51-13-421 - Print 4</div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://i.postimg.cc/JspQM0wC/Screenshot-2026-07-12-13-51-16-463-com-android-chrome.jpg" alt="Screenshot 5" onclick="window.open(this.src, '_blank')">
+                    <div class="gallery-item-caption">Screenshot-2026-07-12-13-51-16-463 - Print 5</div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://i.postimg.cc/4mTP1jvL/Screenshot-2026-07-12-13-51-19-554-com-android-chrome.jpg" alt="Screenshot 6" onclick="window.open(this.src, '_blank')">
+                    <div class="gallery-item-caption">Screenshot-2026-07-12-13-51-19-554 - Print 6</div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://i.postimg.cc/hX20cvFB/Screenshot-2026-07-12-13-51-23-027-com-android-chrome.jpg" alt="Screenshot 7" onclick="window.open(this.src, '_blank')">
+                    <div class="gallery-item-caption">Screenshot-2026-07-12-13-51-23-027 - Print 7</div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://i.postimg.cc/2VfGxgdX/Screenshot-2026-07-12-13-51-27-170-com-android-chrome.jpg" alt="Screenshot 8" onclick="window.open(this.src, '_blank')">
+                    <div class="gallery-item-caption">Screenshot-2026-07-12-13-51-27-170 - Print 8</div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://i.postimg.cc/xX6Pn8rn/Screenshot-2026-07-12-13-51-32-761-com-android-chrome.jpg" alt="Screenshot 9" onclick="window.open(this.src, '_blank')">
+                    <div class="gallery-item-caption">Screenshot-2026-07-12-13-51-32-761 - Print 9</div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://i.postimg.cc/7fy9Nj1c/Screenshot-2026-07-12-13-51-40-488-com-android-chrome.jpg" alt="Screenshot 10" onclick="window.open(this.src, '_blank')">
+                    <div class="gallery-item-caption">Screenshot-2026-07-12-13-51-40-488 - Print 10</div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://i.postimg.cc/zyxk8vmD/Screenshot-2026-07-12-13-52-14-020-com-android-chrome.jpg" alt="Atendimento Desativado" onclick="window.open(this.src, '_blank')">
+                    <div class="gallery-item-caption">Screenshot-2026-07-12-13-52-14-020 - PROVA: Atendimento Desativado</div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://i.postimg.cc/Xp0LgtKt/Screenshot-2026-07-12-13-54-21-541-com-google-android-gm.jpg" alt="Screenshot 12" onclick="window.open(this.src, '_blank')">
+                    <div class="gallery-item-caption">Screenshot-2026-07-12-13-54-21-541 - Print 12</div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://i.postimg.cc/DSxcn0Vy/Screenshot-2026-07-12-13-55-25-398-com-google-android-gm.jpg" alt="Screenshot 13" onclick="window.open(this.src, '_blank')">
+                    <div class="gallery-item-caption">Screenshot-2026-07-12-13-55-25-398 - Print 13</div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://i.postimg.cc/2VfGxgds/Screenshot-2026-07-12-13-55-35-037-com-google-android-gm.jpg" alt="Screenshot 14" onclick="window.open(this.src, '_blank')">
+                    <div class="gallery-item-caption">Screenshot-2026-07-12-13-55-35-037 - Print 14</div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://i.postimg.cc/Wd57TzR4/Screenshot-2026-07-12-13-55-40-949-com-google-android-gm.jpg" alt="Screenshot 15" onclick="window.open(this.src, '_blank')">
+                    <div class="gallery-item-caption">Screenshot-2026-07-12-13-55-40-949 - Print 15</div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://i.postimg.cc/Xp0LgtcS/Screenshot-2026-07-12-13-55-54-827-com-google-android-gm.jpg" alt="Screenshot 16" onclick="window.open(this.src, '_blank')">
+                    <div class="gallery-item-caption">Screenshot-2026-07-12-13-55-54-827 - Print 16</div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://i.postimg.cc/N5wDxZ7c/Screenshot-2026-07-12-13-56-00-373-com-google-android-gm.jpg" alt="Screenshot 17" onclick="window.open(this.src, '_blank')">
+                    <div class="gallery-item-caption">Screenshot-2026-07-12-13-56-00-373 - Print 17</div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://i.postimg.cc/QHrmqvkZ/Screenshot-2026-07-12-13-56-07-467-com-google-android-gm.jpg" alt="Screenshot 18" onclick="window.open(this.src, '_blank')">
+                    <div class="gallery-item-caption">Screenshot-2026-07-12-13-56-07-467 - Print 18</div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://i.postimg.cc/Mv85Ygb8/Screenshot-2026-07-12-13-56-25-643-com-google-android-gm.jpg" alt="Screenshot 19" onclick="window.open(this.src, '_blank')">
+                    <div class="gallery-item-caption">Screenshot-2026-07-12-13-56-25-643 - Print 19</div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://i.postimg.cc/56MgmDq1/Screenshot-2026-07-12-13-56-33-521-com-google-android-gm.jpg" alt="Screenshot 20" onclick="window.open(this.src, '_blank')">
+                    <div class="gallery-item-caption">Screenshot-2026-07-12-13-56-33-521 - Print 20</div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://i.postimg.cc/HVCztF4Y/Screenshot-2026-07-12-13-56-38-606-com-google-android-gm.jpg" alt="Screenshot 21" onclick="window.open(this.src, '_blank')">
+                    <div class="gallery-item-caption">Screenshot-2026-07-12-13-56-38-606 - Print 21</div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://i.postimg.cc/KRrNpQQ6/Screenshot-2026-07-12-13-57-00-192-com-google-android-gm.jpg" alt="Screenshot 22" onclick="window.open(this.src, '_blank')">
+                    <div class="gallery-item-caption">Screenshot-2026-07-12-13-57-00-192 - Print 22</div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://i.postimg.cc/2VFw9T2R/Screenshot-2026-07-12-13-57-20-585-com-google-android-gm.jpg" alt="Screenshot 23" onclick="window.open(this.src, '_blank')">
+                    <div class="gallery-item-caption">Screenshot-2026-07-12-13-57-20-585 - Print 23</div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://i.postimg.cc/mtNwpV8G/Screenshot-2026-07-12-13-57-42-585-com-google-android-gm.jpg" alt="Screenshot 24" onclick="window.open(this.src, '_blank')">
+                    <div class="gallery-item-caption">Screenshot-2026-07-12-13-57-42-585 - Print 24</div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://i.postimg.cc/mchyD4RR/Screenshot-2026-07-12-13-57-47-008-com-google-android-gm.jpg" alt="Screenshot 25" onclick="window.open(this.src, '_blank')">
+                    <div class="gallery-item-caption">Screenshot-2026-07-12-13-57-47-008 - Print 25</div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://i.postimg.cc/ZCFcsjVZ/Screenshot-2026-07-12-13-57-51-467-com-google-android-gm.jpg" alt="Screenshot 26" onclick="window.open(this.src, '_blank')">
+                    <div class="gallery-item-caption">Screenshot-2026-07-12-13-57-51-467 - Print 26</div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://i.postimg.cc/4mb52wBJ/Screenshot-2026-07-12-13-57-55-668-com-google-android-gm.jpg" alt="Screenshot 27" onclick="window.open(this.src, '_blank')">
+                    <div class="gallery-item-caption">Screenshot-2026-07-12-13-57-55-668 - Print 27</div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://i.postimg.cc/ppYZckqL/Screenshot-2026-07-12-13-58-07-904-com-google-android-gm.jpg" alt="Screenshot 28" onclick="window.open(this.src, '_blank')">
+                    <div class="gallery-item-caption">Screenshot-2026-07-12-13-58-07-904 - Print 28</div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://i.postimg.cc/mchyD4RT/Screenshot-2026-07-12-13-58-19-913-com-google-android-gm.jpg" alt="Screenshot 29" onclick="window.open(this.src, '_blank')">
+                    <div class="gallery-item-caption">Screenshot-2026-07-12-13-58-19-913 - Print 29</div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://i.postimg.cc/JGcqYKPn/Screenshot-2026-07-12-13-58-28-181-com-google-android-gm.jpg" alt="Screenshot 30" onclick="window.open(this.src, '_blank')">
+                    <div class="gallery-item-caption">Screenshot-2026-07-12-13-58-28-181 - Print 30</div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://i.postimg.cc/MvbD3tdn/Screenshot-2026-07-12-13-58-45-202-com-google-android-gm.jpg" alt="Screenshot 31" onclick="window.open(this.src, '_blank')">
+                    <div class="gallery-item-caption">Screenshot-2026-07-12-13-58-45-202 - Print 31</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p><strong>Portal de Denúncias - Fraudes em Distribuidoras de Streaming</strong></p>
+        <p>Dossiê Integrado de Acusação e Denúncia Pública - Caso Som Vibe</p>
+        <p>Notificante: Gui Cariolatto</p>
+        <p>Data: 12 de julho de 2026</p>
+        <p style="margin-top: 20px; font-size: 0.9em; border-top: 1px solid #555; padding-top: 15px;">
+            Este portal é um espaço de informação pública sobre denúncias de fraude em distribuidoras de streaming. 
+            <br>Proteja seus direitos autorais. Denuncie abuso.
+        </p>
+    </footer>
+</body>
+</html>
